@@ -1,4 +1,218 @@
 import java.util.Scanner;
+import java.util.Stack;
+import java.util.List;
+import java.util.ArrayList;
+
+class Board{
+    int Board[][] = new int[4][4]; // 2 Dimensions Board
+    int OneDBoard[] = new int[16]; // 1 Dimension Board
+    Stack<Board> SBoard = new Stack<Board>();
+    Stack<Board> SAux = new Stack<Board>();
+    List<Board> LBoard = new ArrayList<Board>();
+    int holeX = -1;
+    int holeY = -1;
+
+    Board(int[] B){
+        for(int i = 0, c = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+               Board[i][j] = B[c];
+               OneDBoard[c] = B[c++];
+               if(Board[i][j] == 0){
+                holeX = i;
+                holeY = j;
+               }
+            }
+          }
+    }
+
+    Board(int[][] B){
+        for(int i = 0, c = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+               Board[i][j] = B[i][j];
+               OneDBoard[c++] = B[i][j];
+               if(Board[i][j] == 0){
+                holeX = i;
+                holeY = j;
+               }
+            }
+          }
+    }
+
+    List<Board> list(){
+        return LBoard;
+    }
+
+    int[][] array(){
+        return Board;
+    }
+
+    Board copy(){
+        return new Board(Board);
+    }
+
+    int equals(Board B){
+        int res = -1;
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+               if(Board[i][j] == B.array()[i][j]) res = 0;
+               else res = -1;
+            }
+          }
+        return res;
+    }
+
+    int nextDepth(Stack<Board> s1, Stack<Board> s2){
+       Board B = copy();
+       s1.push(B);
+       s2.push(B);
+       boolean check = false;
+       Board BoardR = new Board(Board);
+       Board BoardU = new Board(Board);
+       Board BoardD = new Board(Board);
+       Board BoardL = new Board(Board);
+
+       if(holeX + 1 < 4){
+        BoardR.swap("right");
+        s1.push(BoardR);
+        check = true;
+      }
+      if(holeY + 1 < 4){
+       BoardU.swap("up");
+       s1.push(BoardU);
+       check = true;
+     }
+     if(holeY - 1 >= 0){
+       BoardD.swap("down");
+        if (s1.search(BoardD) == -1) check = false;
+        else{
+           check = true;
+           s1.push(BoardD);
+        }
+     }
+     if(holeX - 1 >= 0){
+       BoardL.swap("left");
+       s1.push(BoardL);
+       check = true;
+     }
+     if (!check) return -1;
+     nextDepth(s1, s2);
+     return 0;
+    }
+
+     int ManhattanDist() {
+        int mDist = 0;
+        for (int x = 0; x < 4; x++) // x-dimension, traversing rows (i)
+            for (int y = 0; y < 4; y++) { // y-dimension, traversing cols (j)
+                int value = array()[x][y]; // tiles array contains board elements
+                if (value != 0) { // we don't compute MD for element 0
+                    int targetX = (value - 1) / 4; // expected x-coordinate (row)
+                    int targetY = (value - 1) % 4; // expected y-coordinate (col)
+                    int dx = x - targetX; // x-distance to expected coordinate
+                    int dy = y - targetY; // y-distance to expected coordinate
+                    mDist += Math.abs(dx) + Math.abs(dy); 
+                } 
+            }
+        return mDist;
+    }
+    void nextGulosa(){
+       Board BoardR = new Board(Board);
+       Board BoardU = new Board(Board);
+       Board BoardD = new Board(Board);
+       Board BoardL = new Board(Board);
+       int Mdist = ManhattanDist();
+       String s = "";
+       int moves = 0;
+       list().add(copy());
+       if(holeX + 1 < 4){
+         BoardR.swap("right");
+         int d = BoardR.ManhattanDist();
+         if( d < Mdist && !list().contains(BoardR)){
+              s = "right";
+              Mdist = d;
+         }
+       }
+       if(holeY + 1 < 4){
+        BoardU.swap("up");
+        int d = BoardU.ManhattanDist();
+        if( d < Mdist && !list().contains(BoardU)){
+             s = "up";
+             Mdist = d;
+        }
+      }
+      if(holeY - 1 >= 0){
+        BoardD.swap("down");
+        int d = BoardD.ManhattanDist();
+        if( d < Mdist && !list().contains(BoardD)){
+             s = "down";
+             Mdist = d;
+        }
+      }
+      if(holeX - 1 >= 0){
+        BoardL.swap("left");
+        int d = BoardL.ManhattanDist();
+        if( d < Mdist && !list().contains(BoardL)){
+             s = "left";
+             Mdist = d;
+        }
+      }
+      if(s.equals("")){
+        System.out.println("Solution not found");
+        return;
+      }
+      swap(s);
+      moves++;
+      if(ManhattanDist() == 0){
+        System.out.println(moves);
+        return;
+      }
+      nextGulosa();
+      list().clear();
+    }
+
+    void swap(String move){
+    if(move.equals("up")){
+        Board[holeX][holeY] = Board[holeX][holeY + 1];
+        Board[holeX][holeY] = 0;
+        holeY++;
+    }
+    else if(move.equals("down")){
+        Board[holeX][holeY] = Board[holeX][holeY - 1];
+        Board[holeX][holeY] = 0;
+        holeY--;
+    }
+    else if(move.equals("left")){
+        Board[holeX][holeY] = Board[holeX-1][holeY];
+        Board[holeX][holeY] = 0;
+        holeX--;
+    }
+    else if(move.equals("right")){
+        Board[holeX][holeY] = Board[holeX+1][holeY];
+        Board[holeX][holeY] = 0;
+        holeX++;
+    }
+ }
+
+    int inversions(){
+        int Inv = 0;
+        for(int i = 1; i < 16; i++){        
+            for(int j = i + 1; j < 16; j++){
+                //System.out.println(OneDBoard[i] + " j" + OneDBoard[j]);
+                if((OneDBoard[i] > OneDBoard[j]) && OneDBoard[j] != 0) Inv++;
+                //System.out.println(Inv + "Inv");
+            }
+        }
+        return Inv;
+    }
+
+    public void print() {
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+              System.out.print(Board[i][j] + " ");
+            }
+            System.out.println("");
+          }
+     }
+}
 
 public class SearchAlg{
     public static void main(String[] args){
@@ -10,11 +224,6 @@ public class SearchAlg{
         // Final line of white space
         int BRowf = - 1; 
 
-        // Number of inversions of the initial board
-        int Invi = 0;   
-        // Number of inversions of the final board
-        int Invf = 0;
-
         // Initial board configuration
         int Bi[] = new int[16]; 
         for(int i = 0; i < 16; i++){
@@ -24,13 +233,7 @@ public class SearchAlg{
                 else BRowi = i/4 + 1;
             }
         }
-
-         // Counting the number of inversions in the initial state of the board
-        for(int i = 0; i < 16; i++){        
-            for(int j = i + 1; j < 16; i++){
-                if(Bi[j] < Bi[i]) Invi++;
-            }
-        }
+        
 
         sc.nextLine();
 
@@ -44,13 +247,13 @@ public class SearchAlg{
             }
         }
 
-        // Counting the number of inversions in the final state of the board
-        for(int i = 0; i < 16; i++){          
-            for(int j = i + 1; j < 16; i++){
-                if(Bf[j] < Bf[i]) Invf++;
-            }
-        }
-        
+        Board Boardi = new Board(Bi);
+        Board Boardf = new Board(Bf);
+          
+         // Number of inversions of the initial board
+             int Invi = Boardi.inversions();   
+         // Number of inversions of the final board
+             int Invf = Boardf.inversions();
         /*  If this condition is not obeyed, it will not be possible to go from the initial state
           to the final state of the board, and vice versa.
         */
@@ -62,6 +265,10 @@ public class SearchAlg{
           to the final state of the board, and vice versa.
          */
         else{
+           /* check all the possible subs, choose which sub has the lowest Manhattan distance plus the cost of reaching the current state from the initial state*/
+           // Or the same method but with inversions instead of the MD(choose the fastest)
+           Boardi.nextGulosa();
+           Boardi.print();
 
         }
 
