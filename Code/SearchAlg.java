@@ -167,7 +167,7 @@ class Board{
         System.out.println("Solution found in " + moves + " passos");
         return;
       }
-      print();
+      printBoard();
       nextGulosa();
       list().clear();
     }
@@ -207,7 +207,7 @@ class Board{
         return Inv;
     }
 
-    public void print() {
+    public void printBoard() {
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 4; j++){
               System.out.print(Board[i][j] + " ");
@@ -219,61 +219,81 @@ class Board{
 
 public class SearchAlg{
     public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
+        String choice = null;
+        Scanner scan = new Scanner(System.in);
+        do {
+            System.out.println("Type a command (help for 'help'):\n");
+            choice = scan.nextLine();
+            if(choice.equals("quit")) break;
+            switch (choice) {
+                case "info":
+                    System.out.println("Realizado por:\n-> 202203859 - Joao Manuel Cardoso Guedes\n-> 202203858 - Eliandro Ricardo João Luís de Melo\n-> 202105587 - Antonio Maria Araujo Pinto dos Santos\n");
+                    break;
+                case "createNew":
+                    System.out.println("Creating a new board...");
+                    Scanner sc = new Scanner(System.in);
 
-        // Current line of white space
-        int BRowi = - 1; 
+                    // Current line of white space
+                    int BRowi = - 1;
 
-        // Final line of white space
-        int BRowf = - 1; 
+                    // Final line of white space
+                    int BRowf = - 1;
 
-        // Initial board configuration
-        int Bi[] = new int[16]; 
-        for(int i = 0; i < 16; i++){
-            Bi[i] = sc.nextInt();
-            if(Bi[i] == 0){
-                if(i % 4 == 0) BRowi = i/4;
-                else BRowi = i/4 + 1;
+                    // Initial board configuration
+                    int Bi[] = new int[16];
+                    for(int i = 0; i < 16; i++){
+                        Bi[i] = sc.nextInt();
+                        if(Bi[i] == 0){
+                            if(i % 4 == 0) BRowi = i/4;
+                            else BRowi = i/4 + 1;
+                        }
+                    }
+
+
+                    sc.nextLine();
+
+                    // Final board configuration
+                    int Bf[] = new int[16];
+                    for(int i = 0; i < 16; i++){
+                        Bf[i] = sc.nextInt();
+                        if(Bf[i] == 0){
+                            if(i % 4 == 0) BRowf = i/4;
+                            else BRowf = i/4 + 1;
+                        }
+                    }
+
+                    Board Boardi = new Board(Bi);
+                    Board Boardf = new Board(Bf);
+
+                    // Number of inversions of the initial board
+                    int Invi = Boardi.inversions();
+                    // Number of inversions of the final board
+                    int Invf = Boardf.inversions();
+
+                    if(!(((Invi % 2 == 0) == (BRowi % 2 == 1)) == ((Invf % 2 == 0) == (BRowf % 2 == 1)))){
+                        System.out.println("It is not possible to reach from the initial state to the final state of the board, and vice versa.");
+                    }
+
+
+                    else{
+                        Boardi.printBoard();
+                        Boardi.nextGulosa();
+
+                    }
+                    break;
+                case "help":
+                    System.out.println("info - group information\ncreateNew - create a new Board");
+                    System.out.println("Using this command replaces previous devices,houses,providers.");
+                    System.out.println("Type a file name:");
+                    String choiceLoad = null;
+                    Scanner scanLoad = new Scanner(System.in);
+                    choiceLoad = scanLoad.nextLine();
+                default:
+                    System.out.println("Invalid project Command!");
+                    break;
             }
-        }
-        
-
-        sc.nextLine();
-
-        // Final board configuration
-        int Bf[] = new int[16]; 
-        for(int i = 0; i < 16; i++){
-            Bf[i] = sc.nextInt();
-            if(Bf[i] == 0){
-                if(i % 4 == 0) BRowf = i/4;
-                else BRowf = i/4 + 1;
-            }
-        }
-
-        Board Boardi = new Board(Bi);
-        Board Boardf = new Board(Bf);
-          
-         // Number of inversions of the initial board
-             int Invi = Boardi.inversions();   
-         // Number of inversions of the final board
-             int Invf = Boardf.inversions();
-        /*  If this condition is not obeyed, it will not be possible to go from the initial state
-          to the final state of the board, and vice versa.
-        */
-        if(!(((Invi % 2 == 0) == (BRowi % 2 == 1)) == ((Invf % 2 == 0) == (BRowf % 2 == 1)))){
-           System.out.println("It is not possible to reach from the initial state to the final state of the board, and vice versa.");
-        }
-
-        /* If the condition is obeyed we can arrive from the initial state
-          to the final state of the board, and vice versa.
-         */
-        else{
-           /* check all the possible subs, choose which sub has the lowest Manhattan distance plus the cost of reaching the current state from the initial state*/
-           // Or the same method but with inversions instead of the MD(choose the fastest)
-           Boardi.print();
-           Boardi.nextGulosa();
-
-        }
+        } while (!choice.equals("quit"));
+        scan.close();
 
         }
 }
