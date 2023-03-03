@@ -222,7 +222,7 @@ public class SearchAlg{
         String choice = null;
         Scanner scan = new Scanner(System.in);
         do {
-            System.out.println("Type a command (help for 'help'):\n");
+            System.out.println("Type a command (help for 'help'):");
             choice = scan.nextLine();
             if(choice.equals("quit")) break;
             switch (choice) {
@@ -283,11 +283,6 @@ public class SearchAlg{
                     break;
                 case "help":
                     System.out.println("info - group information\ncreateNew - create a new Board");
-                    System.out.println("Using this command replaces previous devices,houses,providers.");
-                    System.out.println("Type a file name:");
-                    String choiceLoad = null;
-                    Scanner scanLoad = new Scanner(System.in);
-                    choiceLoad = scanLoad.nextLine();
                 default:
                     System.out.println("Invalid project Command!");
                     break;
