@@ -4,22 +4,23 @@ import java.util.List;
 import java.util.ArrayList;
 
 class Board{
-    int Board[][] = new int[4][4]; // 2 Dimensions Board
-    int OneDBoard[] = new int[16]; // 1 Dimension Board
+    int Board[][] = new int[4][4];
+    int InitialBoard[] = new int[16];
     Stack<Board> SBoard = new Stack<Board>();
     Stack<Board> SAux = new Stack<Board>();
     List<Board> LBoard = new ArrayList<Board>();
-    int holeX = -1;
-    int holeY = -1;
+    int g = 0;
+    int holeRow = -1;
+    int holeCol = -1;
 
     Board(int[] B){
         for(int i = 0, c = 0; i < 4; i++){
             for(int j = 0; j < 4; j++){
                Board[i][j] = B[c];
-               OneDBoard[c] = B[c++];
+               InitialBoard[c] = B[c++];
                if(Board[i][j] == 0){
-                holeX = i;
-                holeY = j;
+                holeRow = i;
+                holeCol = j;
                }
             }
           }
@@ -29,10 +30,10 @@ class Board{
         for(int i = 0, c = 0; i < 4; i++){
             for(int j = 0; j < 4; j++){
                Board[i][j] = B[i][j];
-               OneDBoard[c++] = B[i][j];
+               InitialBoard[c++] = B[i][j];
                if(Board[i][j] == 0){
-                holeX = i;
-                holeY = j;
+                holeRow = i;
+                holeCol = j;
                }
             }
           }
@@ -71,17 +72,17 @@ class Board{
        Board BoardD = new Board(Board);
        Board BoardL = new Board(Board);
 
-       if(holeX + 1 < 4){
+       if(holeRow + 1 < 4){
         BoardR.swap("right");
         s1.push(BoardR);
         check = true;
       }
-      if(holeY + 1 < 4){
+      if(holeCol + 1 < 4){
        BoardU.swap("up");
        s1.push(BoardU);
        check = true;
      }
-     if(holeY - 1 >= 0){
+     if(holeCol - 1 >= 0){
        BoardD.swap("down");
         if (s1.search(BoardD) == -1) check = false;
         else{
@@ -89,7 +90,7 @@ class Board{
            s1.push(BoardD);
         }
      }
-     if(holeX - 1 >= 0){
+     if(holeRow - 1 >= 0){
        BoardL.swap("left");
        s1.push(BoardL);
        check = true;
@@ -120,10 +121,11 @@ class Board{
        Board BoardD = new Board(Board);
        Board BoardL = new Board(Board);
        int Mdist = ManhattanDist();
+       System.out.println(Mdist);
        String s = "";
        int moves = 0;
        list().add(copy());
-       if(holeX + 1 < 4){
+       if(holeCol + 1 < 4){
          BoardR.swap("right");
          int d = BoardR.ManhattanDist();
          if( d < Mdist && !list().contains(BoardR)){
@@ -131,7 +133,7 @@ class Board{
               Mdist = d;
          }
        }
-       if(holeY + 1 < 4){
+       if(holeRow - 1 >= 0){
         BoardU.swap("up");
         int d = BoardU.ManhattanDist();
         if( d < Mdist && !list().contains(BoardU)){
@@ -139,7 +141,7 @@ class Board{
              Mdist = d;
         }
       }
-      if(holeY - 1 >= 0){
+      if(holeRow + 1 < 4){
         BoardD.swap("down");
         int d = BoardD.ManhattanDist();
         if( d < Mdist && !list().contains(BoardD)){
@@ -147,7 +149,7 @@ class Board{
              Mdist = d;
         }
       }
-      if(holeX - 1 >= 0){
+      if(holeCol - 1 >= 0){
         BoardL.swap("left");
         int d = BoardL.ManhattanDist();
         if( d < Mdist && !list().contains(BoardL)){
@@ -162,33 +164,34 @@ class Board{
       swap(s);
       moves++;
       if(ManhattanDist() == 0){
-        System.out.println(moves);
+        System.out.println("Solution found in " + moves + " passos");
         return;
       }
+      print();
       nextGulosa();
       list().clear();
     }
 
     void swap(String move){
     if(move.equals("up")){
-        Board[holeX][holeY] = Board[holeX][holeY + 1];
-        Board[holeX][holeY] = 0;
-        holeY++;
+        Board[holeRow][holeCol] = Board[holeRow - 1][holeCol];
+        Board[holeRow - 1][holeCol] = 0;
+        holeRow--;
     }
     else if(move.equals("down")){
-        Board[holeX][holeY] = Board[holeX][holeY - 1];
-        Board[holeX][holeY] = 0;
-        holeY--;
+        Board[holeRow][holeCol] = Board[holeRow+1][holeCol];
+        Board[holeRow+1][holeCol] = 0;
+        holeRow++;
     }
     else if(move.equals("left")){
-        Board[holeX][holeY] = Board[holeX-1][holeY];
-        Board[holeX][holeY] = 0;
-        holeX--;
+        Board[holeRow][holeCol] = Board[holeRow][holeCol-1];
+        Board[holeRow][holeCol-1] = 0;
+        holeCol--;
     }
     else if(move.equals("right")){
-        Board[holeX][holeY] = Board[holeX+1][holeY];
-        Board[holeX][holeY] = 0;
-        holeX++;
+        Board[holeRow][holeCol] = Board[holeRow][holeCol+1];
+        Board[holeRow][holeCol+1] = 0;
+        holeCol++;
     }
  }
 
@@ -196,8 +199,8 @@ class Board{
         int Inv = 0;
         for(int i = 1; i < 16; i++){        
             for(int j = i + 1; j < 16; j++){
-                //System.out.println(OneDBoard[i] + " j" + OneDBoard[j]);
-                if((OneDBoard[i] > OneDBoard[j]) && OneDBoard[j] != 0) Inv++;
+                //System.out.println(InitialBoard[i] + " j" + InitialBoard[j]);
+                if((InitialBoard[i] > InitialBoard[j]) && InitialBoard[j] != 0) Inv++;
                 //System.out.println(Inv + "Inv");
             }
         }
@@ -267,8 +270,8 @@ public class SearchAlg{
         else{
            /* check all the possible subs, choose which sub has the lowest Manhattan distance plus the cost of reaching the current state from the initial state*/
            // Or the same method but with inversions instead of the MD(choose the fastest)
-           Boardi.nextGulosa();
            Boardi.print();
+           Boardi.nextGulosa();
 
         }
 
