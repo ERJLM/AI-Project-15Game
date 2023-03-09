@@ -49,6 +49,7 @@ public class Game{
     return false;
    }
 
+
   Board searchDfs(int l){
     double start = System.currentTimeMillis();
     Stack<Board> frontier = new Stack<Board>();
@@ -113,8 +114,8 @@ Board searchIddfs(){
       double start = System.currentTimeMillis();
       PriorityQueue<Board> frontier = new PriorityQueue<>(Comparator.comparingInt(B -> B.getG() + B.ManhattanDist()));
       frontier.add(Board);
+      int space = 1; //Number of nodes added to frontier
       ArrayDeque<String> reached = new ArrayDeque<String>();
-      int space = 0;
       while (!frontier.isEmpty()) {
         // Remove the node with the lowest cost plus heuristic value from the frontier
         Board node = frontier.poll();
@@ -130,10 +131,11 @@ Board searchIddfs(){
             return node;
         }
         reached.add(node.toString());
-        space++;
+        
         for (Board neighbor : node.expand()) {
           if (!reached.contains(neighbor.toString())) {
               frontier.add(neighbor);
+              space++;
           }
         }
       }
@@ -141,15 +143,14 @@ Board searchIddfs(){
       return null;
     }
 
-    void searchGreedy(){
+    Board searchGreedy(){
       double start = System.currentTimeMillis();
       PriorityQueue<Board> frontier = new PriorityQueue<>(Comparator.comparingInt(n -> n.ManhattanDist()));
-      int space = 0;
       frontier.add(Board);
+      int space = 1; //Number of nodes added to frontier
       ArrayDeque<String> reached = new ArrayDeque<String>();
 
       while(!frontier.isEmpty()){
-        space++;
         Board node = frontier.poll();
 
             // Check if the current node is the goal node
@@ -160,7 +161,7 @@ Board searchIddfs(){
                 System.out.println("Nodes generated: " + space);
                 System.out.println("Depth: " + node.getG());
                 System.out.println("Time: " + (elapsedTime/1000) + " seconds");
-                return;
+                return node;
             }
 
             // Add the current node to the explored set
@@ -169,30 +170,28 @@ Board searchIddfs(){
             for (Board neighbor : node.expand()) {
               if (!reached.contains(neighbor.toString())) {
                   frontier.add(neighbor);
+                  space++;
               }
           }
       }
 
-      System.out.println("Path not found");
+      System.out.println("Solution not found");
+      return null;
   }
     Board searchBfs(){
         double start = System.currentTimeMillis();
         Board node = Board;
-        int space = 0;
         if (node.equals(Goal)){
              System.out.println("Solution found");
              return node;
         }
-        ArrayDeque<String> frontier = new ArrayDeque<String>();
-        ArrayDeque<Board> frontierB = new ArrayDeque<Board>();
+        ArrayDeque<Board> frontier = new ArrayDeque<Board>();
         ArrayDeque<String> reached = new ArrayDeque<String>();
-        frontier.add(node.toString());
-        frontierB.add(node);
+        frontier.add(node);
+        int space = 1; //Number of nodes added to frontier
         reached.add(node.toString());
         while(!(frontier.isEmpty())){
-           space++;
-           frontier.remove();
-           node = frontierB.remove();
+           node = frontier.remove();
            for(Board x : node.expand()){
            if(x.equals(Goal)){
             double end = System.currentTimeMillis();
@@ -206,8 +205,8 @@ Board searchIddfs(){
           
            if(!(reached.contains(x.toString()))){
             reached.add(x.toString());
-            frontier.add(x.toString());
-            frontierB.add(x);
+            frontier.add(x);
+            space++;
            }
         }
         }
