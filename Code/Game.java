@@ -112,7 +112,7 @@ Board searchIddfs(){
 
     Board searchAStar(){
       double start = System.currentTimeMillis();
-      PriorityQueue<Board> frontier = new PriorityQueue<>(Comparator.comparingInt(B -> B.getG() + B.ManhattanDist()));
+      PriorityQueue<Board> frontier = new PriorityQueue<>(Comparator.comparingInt(B -> B.getG() + B.ManhattanDist(Goal)));
       frontier.add(Board);
       int space = 1; //Number of nodes added to frontier
       ArrayDeque<String> reached = new ArrayDeque<String>();
@@ -145,7 +145,7 @@ Board searchIddfs(){
 
     Board searchGreedy(){
       double start = System.currentTimeMillis();
-      PriorityQueue<Board> frontier = new PriorityQueue<>(Comparator.comparingInt(n -> n.ManhattanDist()));
+      PriorityQueue<Board> frontier = new PriorityQueue<>(Comparator.comparingInt(n -> n.ManhattanDist(Goal)));
       frontier.add(Board);
       int space = 1; //Number of nodes added to frontier
       ArrayDeque<String> reached = new ArrayDeque<String>();
