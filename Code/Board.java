@@ -114,10 +114,6 @@ public class Board {
         return null;
     }
 
-    int getF(){
-        return g + ManhattanDist();
-    }
-
     int getG(){
         return g;
     }
@@ -137,30 +133,44 @@ public class Board {
     }
 
     boolean equals(Board B){
-        /*for(int i = 0; i < 4; i++){
+        return (this.toString().equals(B.toString()));
+    }
+
+    //This heuristic counts the number of pieces out of place.
+    int heuristic2(Board Goal){
+        int h = 0;
+        for(int i = 0; i < 4; i++){
             for(int j = 0; j < 4; j++){
-               if(Board[i][j] == B.array()[i][j]) res = res && true;
-               else res = res && false ;
+               if(Board[i][j] != Goal.array()[i][j]) h++;
+               }
             }
-          } */
-        if(this.toString().equals(B.toString())) return true;
-        else return false;
+          return h;
     }
 
     
-     int ManhattanDist() {
+     int ManhattanDist(Board Goal) {
         int mDist = 0;
-        for (int x = 0; x < 4; x++) // x-dimension, traversing rows (i)
-            for (int y = 0; y < 4; y++) { // y-dimension, traversing cols (j)
-                int value = array()[x][y]; // tiles array contains board elements
-                if (value != 0) { // we don't compute MD for element 0
-                    int targetX = (value - 1) / 4; // expected x-coordinate (row)
-                    int targetY = (value - 1) % 4; // expected y-coordinate (col)
-                    int dx = x - targetX; // x-distance to expected coordinate
-                    int dy = y - targetY; // y-distance to expected coordinate
-                    mDist += Math.abs(dx) + Math.abs(dy); 
+        int x1[] = new int[16];
+        int y1[] = new int[16];
+        int x2[] = new int[16];
+        int y2[] = new int[16];
+
+        //Stored the position of the values of each board
+        for (int i = 0; i < 4; i++){ 
+            for (int j = 0; j < 4; j++) { 
+                  x1[Goal.array()[i][j]] = i;
+                  y1[Goal.array()[i][j]] = j;
+                  x2[array()[i][j]] = i;
+                  y2[array()[i][j]] = j;
                 } 
             }
+           
+            //Calculate the distance between the place of a value on the current board and the place of the value on the goal board 
+            for (int i = 0; i < 4; i++){ 
+                for (int j = 0; j < 4; j++) { 
+                   if(array()[i][j] != 0) mDist += Math.abs(x1[array()[i][j]] - x2[array()[i][j]]) + Math.abs(y1[array()[i][j]] - y2[array()[i][j]]);
+                    } 
+                }
         return mDist;
     }
    
