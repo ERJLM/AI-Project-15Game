@@ -260,8 +260,8 @@ Board searchIdfs() {
 //Deep limited search
 Board searchDls(int l) {
   double startTime = System.currentTimeMillis();
-  int depthLimit = 0;
-  while (depthLimit <= l) {
+  int depth = 0;
+  while (depth <= l) {
       Board node = Board;
       HashSet<String> reached = new HashSet<String>();
       Stack<Board> frontier = new Stack<Board>();
@@ -278,7 +278,7 @@ Board searchDls(int l) {
               System.out.println("Time: " + elapsedTime + " seconds");
               return node;
           }
-          if (node.getG() < depthLimit) {
+          if (node.getG() < depth) {
               for (Board child : node.expand()) {
                   if (!reached.contains(child.toString())) {
                       reached.add(child.toString());
@@ -288,7 +288,7 @@ Board searchDls(int l) {
               }
           }
       }
-      depthLimit++;
+      depth++;
   }
   
   return null;
