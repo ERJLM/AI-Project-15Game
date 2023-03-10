@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Board {
+    Board parent;
     private int Board[][] = new int[4][4];
     private int InitialBoard[] = new int[16];
     private int g;
@@ -20,6 +21,7 @@ public class Board {
             }
           }
           g = 0;
+          parent = null;
     }
 
     Board(String s){
@@ -36,7 +38,7 @@ public class Board {
             }
           }
           g = 0;
-        
+          parent = null;
     }
     
 
@@ -52,6 +54,7 @@ public class Board {
             }
           }
             g = 0;
+            parent = null;
     }
 
     boolean check(){
@@ -70,6 +73,14 @@ public class Board {
           return true;
     }
    
+    Board getParent(){
+        return parent;
+    }
+
+    void setParent(Board B){
+        parent = B;
+    }
+
     int getHoleCol(){
         return holeCol;
     }
@@ -129,9 +140,11 @@ public class Board {
     Board copy(){
         Board r = new Board(Board);
         r.setG(getG());
+        r.setParent(getParent());
         return r;
     }
 
+    
     boolean equals(Board B){
         return (this.toString().equals(B.toString()));
     }
@@ -205,26 +218,28 @@ public class Board {
     void swap(String move){
     
     if(move.equals("up")){
-       
+        parent = copy();
         Board[holeRow][holeCol] = Board[holeRow - 1][holeCol];
         Board[holeRow - 1][holeCol] = 0;
         holeRow--;
         g = getG() + 1;
     }
     else if(move.equals("down")){
-       
+        parent = copy();
         Board[holeRow][holeCol] = Board[holeRow+1][holeCol];
         Board[holeRow+1][holeCol] = 0;
         holeRow++;
         g = getG() + 1;
     }
     else if(move.equals("left")){
+        parent = copy();
         Board[holeRow][holeCol] = Board[holeRow][holeCol-1];
         Board[holeRow][holeCol-1] = 0;
         holeCol--;
         g = getG() + 1;
     }
     else if(move.equals("right")){
+        parent = copy();
         Board[holeRow][holeCol] = Board[holeRow][holeCol+1];
         Board[holeRow][holeCol+1] = 0;
         holeCol++;
