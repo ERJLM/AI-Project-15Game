@@ -39,7 +39,7 @@ Board searchDfs(){
   Stack<Board> frontier = new Stack<Board>();
   Board result = null;
   frontier.push(Board);
-  int space = 1, i = 0;
+  int space = 1;
   Board node = Board;
   while(!(frontier.isEmpty())){
    node = frontier.pop();
@@ -61,7 +61,7 @@ Board searchDfs(){
     }
    }
 }
-System.out.println("Solution not found" + i);
+System.out.println("Solution not found");
 return result;
 }
 
