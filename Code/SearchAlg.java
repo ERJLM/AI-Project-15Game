@@ -4,7 +4,13 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 
 
-
+/**
+ * Main program function.
+ * <p>
+ * This method will control the program, calls the search methods and creates game boards.
+ *
+ * @throws IOException if the provided input is not correct
+ */
 public class SearchAlg{
     public static void main(String[] args) throws IOException {
         String choice = null;
@@ -102,6 +108,13 @@ public class SearchAlg{
 
     }
 
+    /**
+     * Main IO function.
+     * <p>
+     * This method will control the IO of th program using BufferedReader.
+     *
+     * @throws IOException if the provided input is not correct
+     */
     public static String[] boardIO() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String lines = br.readLine();
