@@ -1,5 +1,12 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+
+
+
 public class SearchAlg{
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         String choice = null;
         Scanner scan = new Scanner(System.in);
         do {
@@ -10,65 +17,82 @@ public class SearchAlg{
                 case "info":
                     System.out.println("Realizado por:\n-> 202203859 - Joao Manuel Cardoso Guedes\n-> 202203858 - Eliandro Ricardo João Luís de Melo\n-> 202105587 - Antonio Maria Araujo Pinto dos Santos\n");
                     break;
-                case "createNew":
-                    System.out.println("Creating a new board...");
-                    Scanner sc = new Scanner(System.in);
+                case "create":
+                    System.out.println("Creating new boards...");
 
-                    // Current line of white space
-                    int BRowi = - 1;
+                    System.out.println("\n[ Initial Board ]");
+                    System.out.println("Please type 16 spaced integers with a 0 for empty space:");
 
-                    // Final line of white space
-                    int BRowf = - 1;
+                    String[] strs = boardIO();
+                    if(strs.length != 16) throw new IOException("Incorrect board size given.");
 
-                    // Initial board configuration
-                    int Bi[] = new int[16];
-                    for(int i = 0; i < 16; i++){
-                        Bi[i] = sc.nextInt();
-                        if(Bi[i] == 0){
-                            if(i % 4 == 0) BRowi = i/4;
-                            else BRowi = i/4 + 1;
+                    int[] a = new int[strs.length];
+
+                    for (int i = 0; i < strs.length; i++) {
+                        a[i] = Integer.parseInt(strs[i]);
+                    }
+                    System.out.println("Accepted.");
+
+                    System.out.println("\n[ Final Board ]");
+                    System.out.println("Please type 16 spaced integers with a 0 for empty space:");
+
+                    strs = boardIO();
+                    if(strs.length != 16) throw new IOException("Incorrect board size given.");
+
+                    int[] b = new int[strs.length];
+
+                    for (int i = 0; i < strs.length; i++) {
+                        b[i] = Integer.parseInt(strs[i]);
+                    }
+                    System.out.println("Accepted.");
+
+
+                    Board Boardi = new Board(a);
+                    Board Boardf = new Board(b);
+
+                    System.out.println("\nStarting the game...");
+                    Game game = new Game(Boardi,Boardf);
+
+                    String choiceGame = null;
+                    Scanner scanGame = new Scanner(System.in);
+                    do {
+                        System.out.println("\nType a algorithm (help for 'help'):");
+                        choiceGame = scan.nextLine();
+                        if(choiceGame.equals("quit")) break;
+                        switch (choiceGame) {
+                            case "dfs":
+                                game.searchDfs();
+                                break;
+                            case "astar":
+                                game.searchAStar();
+                                break;
+                            case "astar2":
+                                game.searchAStar2();
+                                break;
+                            case "greedy":
+                                game.searchGreedy();
+                                break;
+                            case "greedy2":
+                                game.searchGreedy2();
+                                break;
+                            case "bfs":
+                                game.searchBfs();
+                                break;
+                            case "dls":
+                                game.searchIdfs();
+                                break;
+                            case "help":
+                                System.out.println("dfs - dfs search\nastar - astar search\nastar2 - astar2 search\ngreedy - greedy search\ngreedy2 - greedy2 search\nbfs - bfs search\ndls - dls search");
+                            default:
+                                System.out.println("Invalid game Command!");
+                                break;
                         }
-                    }
-
-
-                    sc.nextLine();
-
-                    // Final board configuration
-                    int Bf[] = new int[16];
-                    for(int i = 0; i < 16; i++){
-                        Bf[i] = sc.nextInt();
-                        if(Bf[i] == 0){
-                            if(i % 4 == 0) BRowf = i/4;
-                            else BRowf = i/4 + 1;
-                        }
-                    }
-
-                    Board Boardi = new Board(Bi);
-                    Board Boardf = new Board(Bf);
-
-                    
-                    if(Boardi.check() && Boardf.check()){
-                        
-                     // Number of inversions of the initial board
-                    int Invi = Boardi.inversions();
-                        
-                    // Number of inversions of the final board
-                    int Invf = Boardf.inversions();
-                        
-                    if(!(((Invi % 2 == 0) == (BRowi % 2 == 1)) == ((Invf % 2 == 0) == (BRowf % 2 == 1)))){
-                        System.out.println("It is not possible to reach from the initial state to the final state of the board, and vice versa.");
-                    }
-
-
-                    else{
-                        Boardi.printBoard();
-                        Boardi.nextGulosa();
-
-                    }
-                  }
+                    } while (!choiceGame.equals("quit"));
+                    scan.close();
+                    System.out.println("Exiting current game...");
                     break;
                 case "help":
-                    System.out.println("info - group information\ncreateNew - create a new Board");
+                    System.out.println("info - group information\ncreate - create a new Board\nquit - exit the program");
                 default:
                     System.out.println("Invalid project Command!");
                     break;
@@ -76,5 +100,14 @@ public class SearchAlg{
         } while (!choice.equals("quit"));
         scan.close();
 
-        }
+    }
+
+    public static String[] boardIO() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String lines = br.readLine();
+
+        String[] strs = lines.trim().split("\\s+");
+        return strs;
+
+    }
 }
