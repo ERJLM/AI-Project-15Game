@@ -84,11 +84,11 @@ public class SearchAlg{
                             case "bfs":
                                 game.searchBfs();
                                 break;
-                            case "dls":
+                            case "idfs":
                                 game.searchIdfs();
                                 break;
                             case "help":
-                                System.out.println("dfs - dfs search\nastar - astar search\nastar2 - astar2 search\ngreedy - greedy search\ngreedy2 - greedy2 search\nbfs - bfs search\ndls - dls search");
+                                System.out.println("dfs - dfs search\nastar - astar search\nastar2 - astar2 search\ngreedy - greedy search\ngreedy2 - greedy2 search\nbfs - bfs search\nidfs - idfs search");
                             default:
                                 System.out.println("Invalid game Command!");
                                 break;
