@@ -11,7 +11,7 @@ public class SearchAlg{
      * <p>
      * This method will control the program, calls the search methods and creates game boards.
      *
-     * @throws IOException if the provided input is not correct.
+     * @throws IOException if the provided input is not correct
      */
     public static void main(String[] args) throws IOException {
         String choice = null;
