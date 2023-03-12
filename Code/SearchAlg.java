@@ -22,7 +22,7 @@ public class SearchAlg{
             if(choice.equals("quit")) break;
             switch (choice) {
                 case "info":
-                    System.out.println("Realizado por:\n-> 202203859 - Joao Manuel Cardoso Guedes\n-> 202203858 - Eliandro Ricardo João Luís de Melo\n-> 202105587 - Antonio Maria Araujo Pinto dos Santos\n");
+                    System.out.println("Realizado por:\n-> 202203859 - Joao Manuel Cardoso Guedes\n-> 202203858 - Eliandro Ricardo Joao Luis de Melo\n-> 202105587 - Antonio Maria Araujo Pinto dos Santos\n");
                     break;
                 case "create":
                     System.out.println("Creating new boards...");
