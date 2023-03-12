@@ -2,12 +2,12 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Board {
-    Board parent;
-    private int Board[][] = new int[4][4];
-    private int InitialBoard[] = new int[16];
-    private int g;
-    private int holeRow;
-    private int holeCol;
+    Board parent; //Previous configuration of the board
+    private int Board[][] = new int[4][4]; //State of the board
+    private int InitialBoard[] = new int[16]; // Initial state of the board
+    private int g; //Depth from this state to the root
+    private int holeRow; //Row of the hole
+    private int holeCol; // Collumn of the hole
 
     Board(int[] Bi){
         for(int i = 0, c = 0; i < 4; i++){
@@ -57,6 +57,7 @@ public class Board {
             parent = null;
     }
 
+    //Method that checks if the board is valid
     boolean check(){
         for(int i = 0; i < 16; i++){
             if(InitialBoard[i] < 0 || InitialBoard[i] > 15){
@@ -188,6 +189,7 @@ public class Board {
     }
    
 
+    //Returns a list with all the possible successor states
     List<Board> expand(){
         List<Board> l = new ArrayList<Board>();
         Board b = copy();
