@@ -87,10 +87,10 @@ public class Game{
       int space = 1; //Number of nodes added to frontier
       HashSet<String> reached = new HashSet<String>();
       while (!frontier.isEmpty()) {
-        // Remove the node with the lowest f value from the frontier
+        // Remove the node with the lowest f value from the frontier.
         Board node = frontier.poll();
 
-        // Check if the current node is the goal node
+        // Check if the current node is the goal node.
         if (node.equals(Goal)) {
             double end = System.currentTimeMillis();
             double elapsedTime = end - start;
@@ -167,7 +167,7 @@ public class Game{
       PriorityQueue<Board> frontier = new PriorityQueue<>(Comparator.comparingInt(n -> n.ManhattanDist(Goal)));
       frontier.add(Board);
       int space = 1; //Number of nodes added to frontier
-      ArrayDeque<String> reached = new ArrayDeque<String>();
+      HashSet<String> reached = new HashSet<String>();
 
       while(!frontier.isEmpty()){
         Board node = frontier.poll();
@@ -183,7 +183,7 @@ public class Game{
                 return node;
             }
 
-            // Add the current node to the explored set
+            // Add the current node to the explored set.
             reached.add(node.toString());
 
             for (Board child : node.expand()) {
@@ -210,7 +210,7 @@ public class Game{
         PriorityQueue<Board> frontier = new PriorityQueue<>(Comparator.comparingInt(n -> n.heuristic2(Goal)));
         frontier.add(Board);
         int space = 1; //Number of nodes added to frontier
-        ArrayDeque<String> reached = new ArrayDeque<String>();
+        HashSet<String> reached = new HashSet<String>();
 
         while(!frontier.isEmpty()){
           Board node = frontier.poll();
@@ -256,7 +256,7 @@ public class Game{
              return node;
         }
         ArrayDeque<Board> frontier = new ArrayDeque<Board>();
-        ArrayDeque<String> reached = new ArrayDeque<String>();
+        HashSet<String> reached = new HashSet<String>();
         frontier.add(node);
         int space = 1; //Number of nodes added to frontier
         reached.add(node.toString());
