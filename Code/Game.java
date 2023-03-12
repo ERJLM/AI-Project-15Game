@@ -167,7 +167,7 @@ public class Game{
       PriorityQueue<Board> frontier = new PriorityQueue<>(Comparator.comparingInt(n -> n.ManhattanDist(Goal)));
       frontier.add(Board);
       int space = 1; //Number of nodes added to frontier
-      ArrayDeque<String> reached = new ArrayDeque<String>();
+      HashSet<String> reached = new HashSet<String>();
 
       while(!frontier.isEmpty()){
         Board node = frontier.poll();
@@ -210,7 +210,7 @@ public class Game{
         PriorityQueue<Board> frontier = new PriorityQueue<>(Comparator.comparingInt(n -> n.heuristic2(Goal)));
         frontier.add(Board);
         int space = 1; //Number of nodes added to frontier
-        ArrayDeque<String> reached = new ArrayDeque<String>();
+        HashSet<String> reached = new HashSet<String>();
 
         while(!frontier.isEmpty()){
           Board node = frontier.poll();
@@ -256,7 +256,7 @@ public class Game{
              return node;
         }
         ArrayDeque<Board> frontier = new ArrayDeque<Board>();
-        ArrayDeque<String> reached = new ArrayDeque<String>();
+        HashSet<String> reached = new HashSet<String>();
         frontier.add(node);
         int space = 1; //Number of nodes added to frontier
         reached.add(node.toString());
