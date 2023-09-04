@@ -2,6 +2,9 @@
 
 ``` OpenJDK - version 17 ```
 
+# Descrição do jogo
+O "15 Game" também conhecido é um famoso quebra-cabeça numérico que consiste em uma matriz de 4x4 com 15 peças numeradas de 1 a 15, além de um espaço vazio "0". O  objetivo do jogo é rearranjar as peças numeradas, movendo-as horizontal ou verticalmente, para colocá-las em ordem numérica crescente, com a peça vazia ocupando o último espaço. O desafio está em encontrar a sequência correta de movimentos para resolver o quebra-cabeça e atingir o estado final correto.
+
 # Manual de Instruções para correr o programa:
 
 - A classe Board(ficheiro “Board.java”) representa as configurações do jogo, e a classe Game(ficheiro “Game.java”), representa o jogo
