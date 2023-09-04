@@ -6,10 +6,10 @@
 
 - A classe Board(ficheiro “Board.java”) representa as configurações do jogo, e a classe Game(ficheiro “Game.java”), representa o jogo
 e tem todos os métodos de pesquisa necessários.
-- O ficheiro “SearchAlg.java” contém a função main, e é o ficheiro que usaremos 
+- O ficheiro “Main.java” contém a função main, e é o ficheiro que usaremos 
 para compilar o programa.
 
-No ficheiro “SearchAlg.java” temos tudo pronto para começar a fazer as pesquisas.
+No ficheiro “Main.java” temos tudo pronto para começar a fazer as pesquisas.
 
 
 # Vejamos como se faz cada pesquisa:
