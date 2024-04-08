@@ -1,54 +1,54 @@
-# Versão do Java
+# Java version
 
 ``` OpenJDK - version 17 ```
 
-# Descrição do jogo
-O "15 Game" também conhecido é um famoso quebra-cabeça numérico que consiste em uma matriz de 4x4 com 15 peças numeradas de 1 a 15, além de um espaço vazio "0". O  objetivo do jogo é rearranjar as peças numeradas, movendo-as horizontal ou verticalmente, para colocá-las em ordem numérica crescente, com a peça vazia ocupando o último espaço. O desafio está em encontrar a sequência correta de movimentos para resolver o quebra-cabeça e atingir o estado final correto.
+# Game description
+The also known "15 Game" is a famous numerical puzzle that consists of a 4x4 matrix with 15 pieces numbered from 1 to 15, plus an empty space "0". The objective of the game is to rearrange the numbered pieces, moving them horizontally or vertically, to place them in ascending numerical order, with the empty piece occupying the last space. The challenge is in finding the correct sequence of movements to solve the puzzle and reach the correct final state.
 
-# Manual de Instruções para correr o programa:
+# Instruction manual for running the program:
 
-- A classe Board(ficheiro “Board.java”) representa as configurações do jogo, e a classe Game(ficheiro “Game.java”), representa o jogo
-e tem todos os métodos de pesquisa necessários.
-- O ficheiro “Main.java” contém a função main, e é o ficheiro que usaremos 
-para compilar o programa.
+- The Board class (“Board.java” file) represents the game settings, and the Game class (“Game.java” file) represents the game
+and has all the necessary research methods.
+- The “Main.java” file contains the main function, and is the file we will use
+to compile the program.
 
-No ficheiro “Main.java” temos tudo pronto para começar a fazer as pesquisas.
+In the “Main.java” file we have everything ready to start searching.
 
 
-# Vejamos como se faz cada pesquisa:
+# Let's see how each search is carried out:
 
-Seja G uma variável da classe Game
+Let G be a variable of the Game class
 
-- Pesquisa iterativa em profundidade:
+- Iterative in-depth search:
 
    ```G.searchIdfs();```
 
-- Pesquisa em profundidade limitada(pesquisa auxiliar utilizada para a pesquisa iterativa em profundidade):
+- Limited depth search (auxiliary search used for iterative depth search):
 
-   ```G.searchDls(l); // l é o limite de profundidade```
+   ```G.searchDls(l); // l is the depth limit```
 
-- Pesquisa A Estrela(com a heurística Manhattan Distance):
+- Search The Star (with the Manhattan Distance heuristic):
 
    ```G.searchAStar(); ```
 
-- Pesquisa A Estrela(com a heurística que usa a soma das peças fora do lugar):
+- Search The Star (with the heuristic that uses the sum of out-of-place pieces):
 
    ```G.searchAStar2(); ```
 
-- Pesquisa em profundidade:
+- In-depth search:
 
    ```G.searchDfs();```
 
-- Pesquisa Gulosa(com heurística Manhattan Distance):
+- Greedy Search (with Manhattan Distance heuristic):
 
    ```G.searchGreedy(); ```
 
-- Pesquisa Gulosa(com a heurística que usa a soma das peças fora do lugar):
+- Greedy Search (with the heuristic that uses the sum of out-of-place pieces):
 
-  ``` G.searchGreedy2();    ```
+  ``` G.searchGreedy2(); ```
 
-- Pesquisa em Largura:
+- Breadth Search:
 
    ```G.searchBfs();```
 
-Sendo que nós criamos um menu iterativo, não será necessário fazer as pesquisas manualmente, basta escrever “help” depois de compilar, e seguir as instruções.
+Since we created an iterative menu, it will not be necessary to do the searches manually, just write “help” after compiling, and follow the instructions.
