@@ -27,11 +27,11 @@ Let G be a variable of the Game class
 
    ```G.searchDls(l); // l is the depth limit```
 
-- Search The Star (with the Manhattan Distance heuristic):
+- A-Star Search (with the Manhattan Distance heuristic):
 
    ```G.searchAStar(); ```
 
-- Search The Star (with the heuristic that uses the sum of out-of-place pieces):
+- A-Star Search (with the heuristic that uses the sum of out-of-place pieces):
 
    ```G.searchAStar2(); ```
 
